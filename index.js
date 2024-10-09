@@ -6,7 +6,7 @@ const express = require('express')
 const cors = require('cors')
 //10 import router
 const router = require('./Routes/router')
-
+const appliactionMiddleware = require('./Middlewares/applicationMiddleware')
 //9 import DB
 require('./DB/connection')
 
@@ -16,6 +16,7 @@ const pfServer = express()
 //5 use
 pfServer.use(cors())
 pfServer.use(express.json())
+// pfServer.use(appliactionMiddleware)
 pfServer.use(router)
 
 //6 Define port number
