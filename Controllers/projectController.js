@@ -29,8 +29,15 @@ exports.addProject=async(req,res)=>{
 
 exports.getAllProjects = async(req,res) => {
     console.log("inside getAllProjects");
+    const searchKey=req.query.search
+    const query={
+        title:{
+            $regex:searchKey,
+            $options:"i"
+        }
+    }
     try{
-        const getAllProjects = await projects.find()
+        const getAllProjects = await projects.find(query)
         res.status(200).json(getAllProjects)
     }
     catch(error){
@@ -59,4 +66,38 @@ exports.getHomeProjects = async(req,res) => {
     catch(error){
         res.status(500).json("Server error"+error)
     }
+}
+
+//edit project
+exports.editProject = async(req,res) => {
+    console.log("inside editProject");
+    const {title,language,website,github,overview,projectImg}=req.body
+    const uploadImg =req.file? req.file.filename :projectImg
+    const userId = req.payload
+    const {projectId} = req.params
+
+    try{
+        const updateProject = await projects.findByIdAndUpdate({_id:projectId},{title:title,language:language,website:website,github:github,overview:overview,projectImg:uploadImg,userId})
+        await updateProject.save()
+        res.status(200).json(updateProject)
+    }
+    catch(error){
+        res.status(401).json("Internal error")
+    }
+
+
+    
+}
+
+exports.deleteProject = async(req,res) => {
+    console.log("inside deleteProject");
+    const {projectId} = req.params
+    try{
+        await projects.findByIdAndDelete({_id:projectId})
+        res.status(200).json("Project deleted successfully")
+    }
+    catch(error){
+        res.status(500).json("Server error"+error)
+    }
+ 
 }

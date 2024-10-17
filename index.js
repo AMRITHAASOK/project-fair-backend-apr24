@@ -18,7 +18,8 @@ pfServer.use(cors())
 pfServer.use(express.json())
 // pfServer.use(appliactionMiddleware)
 pfServer.use(router)
-
+pfServer.use('/uploads',express.static('./uploads')) //image exporting to frontend 
+//port creation
 //6 Define port number
 const PORT = 3000 || process.env.PORT
 

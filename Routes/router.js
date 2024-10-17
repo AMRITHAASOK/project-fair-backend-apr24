@@ -28,5 +28,10 @@ router.get('/api/getUserProjects',jwtMiddleware,projectController.getUserProject
 //6 get home project(3) find().limit(3)
 router.get('/api/getHomeProjects',projectController.getHomeProjects)
 
+//update
+router.put('/api/update/:projectId',jwtMiddleware,multerConfig.single('projectImg'),projectController.editProject)
+
+//delete
+router.delete('/api/delete/:projectId',jwtMiddleware,projectController.deleteProject)
 
 module.exports = router
